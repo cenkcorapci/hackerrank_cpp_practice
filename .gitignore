@@ -1,0 +1,31 @@
+# Build directories
+cmake-build-debug/
+build/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Generated binaries
+*.exe
+*.out
+*.app
+
+# OS files
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Solutions build folders
+solutions/*/build/
+
+# Ignore compiled object files
+*.o
+*.obj
+
+# Ignore logs
+*.log

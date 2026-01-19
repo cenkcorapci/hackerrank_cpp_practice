@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+# Usage: ./scripts/run_solution <solution-folder>
+# Example: ./scripts/run_solution 001-hello
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <solution-folder> (e.g. 001-hello)"
+  exit 2
+fi
+SOL_DIR="$1"
+# Replace hyphens with underscores for the target name
+TARGET="sol_$(echo "$SOL_DIR" | tr '-' '_')"
+BUILD_DIR="build"
+
+if ! command -v cmake >/dev/null 2>&1; then
+  echo "cmake not found. Install CMake (for example: brew install cmake) and rerun this script."
+  exit 3
+fi
+
+mkdir -p "$BUILD_DIR"
+cmake -S . -B "$BUILD_DIR" || exit 4
+cmake --build "$BUILD_DIR" --target "$TARGET" || exit 5
+echo "Running $TARGET..."
+"./${BUILD_DIR}/${TARGET}"
