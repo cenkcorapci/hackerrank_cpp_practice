@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 
 # If there is a root-level main.cpp keep it as a convenience target
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
-    add_executable(root_main main.cpp)
+    add_executable(root_main main.cpp
+            solutions/input-output/main.cpp
+    )
 endif()
 
 # Auto-discover per-solution subfolders under `solutions/`
