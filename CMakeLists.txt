@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
     add_executable(root_main main.cpp
             solutions/input-output/main.cpp
+            solutions/basic-dtypes/main.cpp
     )
 endif()
 
@@ -22,7 +23,9 @@ if(EXISTS ${SOLUTIONS_DIR})
             elseif(EXISTS "${SOLUTIONS_DIR}/${f}/main.cpp")
                 # Create a simple executable target named sol_<folder>
                 string(REPLACE "-" "_" SOL_TARGET "${f}")
-                add_executable(sol_${SOL_TARGET} "${SOLUTIONS_DIR}/${f}/main.cpp")
+                add_executable(sol_${SOL_TARGET} "${SOLUTIONS_DIR}/${f}/main.cpp"
+                        solutions/basic-dtypes/main.cpp
+                )
                 target_compile_features(sol_${SOL_TARGET} PRIVATE cxx_std_20)
             endif()
         endif()
