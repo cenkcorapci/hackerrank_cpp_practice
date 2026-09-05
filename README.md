@@ -1,6 +1,6 @@
 # hackerrank-cpp-track
 
-Repository for practicing C++ algorithms. Organize each solution under `solutions/NNN-name/` where each folder contains a `main.cpp` and optional `CMakeLists.txt`.
+Repository for practicing C++ algorithms. Organize each solution under `solutions/NNN-name/` where each folder contains a `main.cpp` and `CMakeLists.txt`.
 
 Layout
 ------
@@ -12,25 +12,31 @@ Layout
 - `scripts/run_solution` — helper script to configure, build and run a solution by folder name.
 - `.github/workflows/ci.yml` — CI workflow that configures and builds the project on push/PR.
 
-Quickstart (recommended)
-------------------------
+Quickstart
+----------
 
 This quickstart shows the recommended out-of-source CMake workflow and the convenience `Makefile` usage. Commands are for fish/bash shells — copy-paste as-is.
 
-1) Using the provided `Makefile` (convenient, generates build/ and forwards to CMake):
+Using the provided `Makefile`:
 
 ```bash
-# Configure & build a single solution target (example: 001-hello)
+# Create a runnable solution scaffold
+make new-solution name=002-two-sum
+
+# Build and run one solution by folder name
+make run-solution name=001-hello
+
+# Run the solution-specific test command
+make test-solution name=001-hello
+
+# Build a specific CMake target directly
 make sol_001_hello
 
-# Configure & build all targets
+# Build all targets
 make all
-
-# Use a different generator (e.g. Ninja)
-make GENERATOR='Ninja' sol_001_hello
 ```
 
-2) Manual out-of-source CMake (explicit, recommended when you want more control):
+Manual out-of-source CMake:
 
 ```bash
 # Create a separate build dir and configure
@@ -40,37 +46,36 @@ mkdir -p build; cmake -S . -B build
 cmake --build build --target sol_001_hello
 
 # Run the binary
-./build/sol_001_hello
-```
-
-3) Using the helper script (automates configure, build, run):
-
-```bash
-# make the script executable (one-time)
-chmod +x scripts/run_solution
-
-# build and run solution by folder name
-./scripts/run_solution 001-hello
+./build/solutions/001-hello/sol_001_hello
 ```
 
 How targets are named
 ---------------------
 
 - Folder `NNN-short-name` becomes CMake target `sol_NNN_short_name` (hyphens replaced with underscores).
-- If a solution folder contains its own `CMakeLists.txt`, the root CMake will `add_subdirectory()` and use that file instead of creating a simple target.
+- If a solution folder contains its own `CMakeLists.txt`, the root CMake will `add_subdirectory()` and use that file.
 
 Adding a new solution
 ---------------------
 
-1. Create a folder `solutions/NNN-short-name` (e.g. `002-two-sum`).
-2. Add a `main.cpp` containing your program.
-3. Optionally add `CMakeLists.txt` inside the folder if you need to include additional sources or custom compile flags. Use `solutions/template/CMakeLists.txt` as a starting point.
-4. Build with the Makefile or CMake as shown above — target will be `sol_NNN_short_name`.
+```bash
+make new-solution name=002-two-sum
+```
+
+This creates:
+- `solutions/002-two-sum/main.cpp`
+- `solutions/002-two-sum/CMakeLists.txt`
+
+Then run it:
+
+```bash
+make run-solution name=002-two-sum
+```
 
 Example
 -------
 
-See `solutions/001-hello` for a minimal example. Build it with `make sol_001_hello` or `cmake --build build --target sol_001_hello`.
+See `solutions/001-hello` for a minimal example.
 
 CI
 --
@@ -87,12 +92,3 @@ Tips and troubleshooting
   - macOS (Homebrew): `brew install cmake` 
   - Ubuntu: `sudo apt-get update && sudo apt-get install -y cmake`
 - Prefer out-of-source builds (keep your repo clean): `cmake -S . -B build`.
-
-Next steps (suggestions)
------------------------
-
-- Add more example problems under `solutions/` to seed the repo.
-- Add an `all_solutions` CMake target that depends on all discovered `sol_*` targets (I can add this if you want).
-- Add a CI step that runs each built executable and checks its output (useful for smoke tests).
-
-If you'd like any of those, tell me which and I'll add them.
